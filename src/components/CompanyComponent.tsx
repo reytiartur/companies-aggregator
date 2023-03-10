@@ -54,7 +54,7 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
                     </div>
                 </div>
             </div>
-            <div className='flex gap-1 mt-3 flex-wrap overflow-hidden items-start px-4'>
+            <div className='flex gap-1 mt-3 flex-nowrap overflow-hidden items-start mx-4 max-h-5'>
                 {locations.slice(0, 3).map(city => (
                     <p key={city} className='whitespace-nowrap text-sm'>{city} |</p>  
                 ))}
@@ -70,18 +70,18 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
                 </div>
                 <div className='w-8 z-10 h-full absolute top-0 right-0 bg-gradient-to-l from-white' />
             </nav>
-            <div className="pt-1 px-4 mb-3 flex flex-col ">
+            <div className="pt-1 px-4 mb-3 flex flex-col min-h-[96px]">
                 <p className='text-sm font-light text-zinc-500 line-clamp-3'>{description}</p>
-                <button className='border-0 h-8 text-sm text-primary hover:text-hover font-medium underline self-start'>Read more</button>
+                <button className='border-0 h-8 mt-auto text-sm text-primary hover:text-hover font-medium underline self-start'>Read more</button>
             </div>
-            <div className="border-t border-gray-400 flex flex-col px-4 pt-2 grow justify-center">
+            <div className="border-t border-gray-400 flex flex-col px-4 pt-2 grow justify-end h-[73px]">
                 {company?.sent ? (
                     <>
                         <p className='self-start text-zinc-500 mb-1 text-xs'>Sent: {company?.sentDate?.toLocaleDateString()}</p>
                         <button onClick={handleSent} className='cursor-pointer border-2 px-2 h-11 font-semibold text-sm items-center gap-1 rounded-xl flex justify-center text-secondary bg-white border-secondary hover:border-hover hover:text-hover hover:bg-zinc-50 opacity-100 transition duration-300'>Sent again</button>
                     </>
                 ) : (
-                    <button onClick={handleSent} className='cursor-pointer border px-2 mt-5 h-11 font-semibold text-sm items-center gap-1 rounded-xl flex justify-center text-white bg-primary border-primary hover:bg-hover transition duration-300'>Mark as sent</button>
+                    <button onClick={handleSent} className='cursor-pointer border px-2 mt-15 h-11 font-semibold text-sm items-center gap-1 rounded-xl flex justify-center text-white bg-primary border-primary hover:bg-hover transition duration-300'>Mark as sent</button>
                 )}
             </div>
         </Card>
