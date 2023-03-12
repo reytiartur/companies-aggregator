@@ -1,7 +1,8 @@
 import { styled } from '@mui/material/styles';
 import { Autocomplete, TextField } from '@mui/material';
 import { AutocompleteProps, DeleteFns, SelectedProps } from '../utils/types';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { FiltersContext } from '../contexts/FiltersContext';
 
 
 const StyledAutocomplete = styled(Autocomplete)(
@@ -33,10 +34,11 @@ const StyledAutocomplete = styled(Autocomplete)(
   );
 
 
-const CustomAutocomplete = ({ placeholder, id, type, options, selected, setSelected, deleteRefFns, setDeleteFns }: AutocompleteProps) => {
+const CustomAutocomplete = ({ placeholder, id, type, options, deleteRefFns }: AutocompleteProps) => {
+  const { selected, setSelected, setDeleteFns } = useContext(FiltersContext)
 
   const handleAutocompleteChange = (event: any, value: unknown) => {
-    setSelected({...selected, [type]: [...[value]]});
+    setSelected({...selected, [type]: [...(value as Array<string>)]});
   };
 
 

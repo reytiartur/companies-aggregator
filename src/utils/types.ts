@@ -1,4 +1,4 @@
-import { AutocompleteChangeReason } from "@mui/material"
+import React from "react"
 
 export interface CompanyProps {
     name: string
@@ -27,23 +27,11 @@ export interface CompaniesProviderProps {
     children: React.ReactNode;
 }
 
-export interface CityProps {
-    name: string,
-    lat: string,
-    lng: string,
-    country: string,
-    countryCode: string
-}
-
 export interface AutocompleteProps {
     placeholder: string
     id: string
     options: string[]
     type: keyof SelectedProps
-    selected: SelectedProps
-    setSelected: Function
-    deleteFns: DeleteFns
-    setDeleteFns: React.Dispatch<React.SetStateAction<DeleteFns>>
     deleteRefFns: DeleteFns
 }
 
@@ -63,4 +51,15 @@ export interface DeleteFns {
     locations: { [key: string]: () => void },
     technologies: { [key: string]: () => void },
     type: { [key: string]: () => void }
+}
+
+export interface FiltersContextType {
+    selected: SelectedProps;
+    setSelected: (selected: SelectedProps) => void;
+    deleteFns: DeleteFns;
+    setDeleteFns: (DeleteFns: DeleteFns) => void;
+}
+
+export interface FiltersProviderProps {
+    children: React.ReactNode
 }

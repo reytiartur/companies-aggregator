@@ -1,24 +1,22 @@
-import { getCitiesByCountryCode } from "country-city-location";
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BusinessIcon from '@mui/icons-material/Business';
-import { useEffect, useState } from 'react';
-import { CityProps, DeleteFns, SelectedProps } from '../utils/types';
+import { useContext } from 'react';
+import { DeleteFns } from '../utils/types';
 import CustomAutocomplete from './CustomAutocomplete';
 import CustomChip from "./CustomChip";
+import { FiltersContext } from "../contexts/FiltersContext";
 
 
 
-const locations = getCitiesByCountryCode('PL').map((city: CityProps) => city.name)
+const locations = ['Warszawa', 'Kraków', 'Wrocław', 'Gdańsk', 'Poznań', 'Gdynia', 'Łódź', 'Rzeszów', 'Katowice', 'Szczecin', 'Gliwice', 'Bielsko-Biała', 'Łomża', 'Białystok' ]
 const technologies = ['React', 'HTML', 'CSS', 'JavaScript', 'TypeScript', 'Python', 'C', 'C#', 'C++', 'PHP', 'GO', 'Vue', 'React Native', 'Angular', 'Swift', 'Node', 'Java', 'Kotlin', 'Flutter', '.Net', 'Next', 'Nuxt']
 const types = ['Corporation', 'Software House', 'Startup', 'E-Commerce', 'Other']
 
   
 
 const Filters = () => {
-  const [selected, setSelected] = useState<SelectedProps>({locations: [], technologies: [], type: []})
-  const [deleteFns, setDeleteFns] = useState<DeleteFns>({locations: {}, technologies: {}, type: {}})
-
+  const { selected, deleteFns } = useContext(FiltersContext)
   const deleteRefFns: DeleteFns = {locations: {}, technologies: {}, type: {}}
 
 
@@ -30,10 +28,6 @@ const Filters = () => {
               type='locations'
               id="location-search"
               options={locations}
-              selected={selected}
-              setSelected={setSelected}
-              deleteFns={deleteFns}
-              setDeleteFns={setDeleteFns}
               deleteRefFns={deleteRefFns}
             />
         </div>
@@ -44,10 +38,6 @@ const Filters = () => {
               type='technologies'
               id="tech-search"
               options={technologies}
-              selected={selected}
-              setSelected={setSelected}
-              deleteFns={deleteFns}
-              setDeleteFns={setDeleteFns}
               deleteRefFns={deleteRefFns}
             />
         </div>
@@ -58,10 +48,6 @@ const Filters = () => {
               type='type'
               id="type-search"
               options={types}
-              selected={selected}
-              setSelected={setSelected}
-              deleteFns={deleteFns}
-              setDeleteFns={setDeleteFns}
               deleteRefFns={deleteRefFns}
             />
         </div>
