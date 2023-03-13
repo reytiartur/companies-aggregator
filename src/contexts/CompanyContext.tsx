@@ -18,7 +18,8 @@ const CompaniesProvider: FC<CompaniesProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('companies', JSON.stringify(companies));
+    if(companies.length > 0)
+      localStorage.setItem('companies', JSON.stringify(companies));
   }, [companies]);
 
   return (

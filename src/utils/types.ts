@@ -15,7 +15,7 @@ export interface Company {
     name: string,
     sent: boolean,
     later: boolean,
-    sentDate?: Date
+    sentDate?: Date | undefined
 }
 
 export interface CompaniesContextType {

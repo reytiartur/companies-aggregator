@@ -77,7 +77,7 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
             <div className="border-t border-gray-400 flex flex-col px-4 pt-2 grow justify-end h-[73px]">
                 {company?.sent ? (
                     <>
-                        <p className='self-start text-zinc-500 mb-1 text-xs'>Sent: {company?.sentDate?.toLocaleDateString()}</p>
+                        <p className='self-start text-zinc-500 mb-1 text-xs'>Sent: {new Date(company?.sentDate ?? '').toLocaleDateString()}</p>
                         <button onClick={handleSent} className='cursor-pointer border-2 px-2 h-11 font-semibold text-sm items-center gap-1 rounded-xl flex justify-center text-secondary bg-white border-secondary hover:border-hover hover:text-hover hover:bg-zinc-50 opacity-100 transition duration-300'>Sent again</button>
                     </>
                 ) : (
