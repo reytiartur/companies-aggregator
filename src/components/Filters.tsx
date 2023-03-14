@@ -1,26 +1,32 @@
-import { getCitiesByCountryCode } from "country-city-location";
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BusinessIcon from '@mui/icons-material/Business';
-import { useEffect, useState } from 'react';
-import { CityProps, DeleteFns, SelectedProps } from '../utils/types';
+import { useContext } from 'react';
+import { DeleteFns } from '../utils/types';
 import CustomAutocomplete from './CustomAutocomplete';
 import CustomChip from "./CustomChip";
+import { FiltersContext } from "../contexts/FiltersContext";
 
 
-
-const locations = getCitiesByCountryCode('PL').map((city: CityProps) => city.name)
+const locations = ['Warszawa', 'Kraków', 'Wrocław', 'Gdańsk', 'Poznań', 'Gdynia', 'Łódź', 'Rzeszów', 'Katowice', 'Szczecin', 'Gliwice', 'Bielsko-Biała', 'Łomża', 'Białystok' ]
 const technologies = ['React', 'HTML', 'CSS', 'JavaScript', 'TypeScript', 'Python', 'C', 'C#', 'C++', 'PHP', 'GO', 'Vue', 'React Native', 'Angular', 'Swift', 'Node', 'Java', 'Kotlin', 'Flutter', '.Net', 'Next', 'Nuxt']
 const types = ['Corporation', 'Software House', 'Startup', 'E-Commerce', 'Other']
 
   
 
 const Filters = () => {
-  const [selected, setSelected] = useState<SelectedProps>({locations: [], technologies: [], type: []})
-  const [deleteFns, setDeleteFns] = useState<DeleteFns>({locations: {}, technologies: {}, type: {}})
-
+  const { selected, deleteFns, selectedCat, setSelectedCat } = useContext(FiltersContext)
   const deleteRefFns: DeleteFns = {locations: {}, technologies: {}, type: {}}
 
+  const handleClick = (key: string) => {
+    if(key === 'sent') {
+      setSelectedCat('sent')
+    } else if(key === 'later') {
+      setSelectedCat('later')
+    } else if(key === 'all') {
+      setSelectedCat('all')
+    }
+  }
 
   return (
     <div className="flex items-center h-16 bg-white border-b border-inactive px-8 gap-4">
@@ -30,10 +36,6 @@ const Filters = () => {
               type='locations'
               id="location-search"
               options={locations}
-              selected={selected}
-              setSelected={setSelected}
-              deleteFns={deleteFns}
-              setDeleteFns={setDeleteFns}
               deleteRefFns={deleteRefFns}
             />
         </div>
@@ -44,10 +46,6 @@ const Filters = () => {
               type='technologies'
               id="tech-search"
               options={technologies}
-              selected={selected}
-              setSelected={setSelected}
-              deleteFns={deleteFns}
-              setDeleteFns={setDeleteFns}
               deleteRefFns={deleteRefFns}
             />
         </div>
@@ -58,10 +56,6 @@ const Filters = () => {
               type='type'
               id="type-search"
               options={types}
-              selected={selected}
-              setSelected={setSelected}
-              deleteFns={deleteFns}
-              setDeleteFns={setDeleteFns}
               deleteRefFns={deleteRefFns}
             />
         </div>
@@ -77,14 +71,14 @@ const Filters = () => {
         </div>
 
         <div className="basis-1/6 flex items-center gap-4 justify-end">
-            <div className="w-10 h-10 flex flex-col justify-center items-center">
-                <BusinessIcon fontSize='large' className='text-secondary' />
+            <div className="w-10 h-10 flex flex-col justify-center items-center cursor-pointer text-zinc-400 hover:text-secondary transition duration-200" onClick={() => handleClick('all')}>
+                <BusinessIcon fontSize='large' className={selectedCat === 'all' ? 'text-secondary' : 'text-zinc-400'} />
             </div>
-            <div className="w-10 h-10 flex flex-col justify-center items-center">
-                <MarkEmailReadIcon fontSize='large' className='text-secondary' />
+            <div className="w-10 h-10 flex flex-col justify-center items-center cursor-pointer text-zinc-400 hover:text-secondary transition duration-200" onClick={() => handleClick('sent')}>
+                <MarkEmailReadIcon fontSize='large' className={selectedCat === 'sent' ? 'text-secondary' : 'text-zinc-400'} />
             </div>
-            <div className="w-10 h-10 flex flex-col justify-center items-center">
-                <BookmarkIcon fontSize='large' className='text-secondary' />
+            <div className="w-10 h-10 flex flex-col justify-center items-center cursor-pointer text-zinc-400 hover:text-secondary transition duration-200" onClick={() => handleClick('later')}>
+                <BookmarkIcon fontSize='large' className={selectedCat === 'later' ? 'text-secondary' : 'text-zinc-400'} />
             </div>
         </div>
     </div>
