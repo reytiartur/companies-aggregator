@@ -7,15 +7,18 @@ const FiltersContext = createContext<FiltersContextType>({
   selected: {locations: [], technologies: [], type: []},
   setSelected: () => {},
   deleteFns: {locations: {}, technologies: {}, type: {}},
-  setDeleteFns: () => {}
+  setDeleteFns: () => {},
+  selectedCat: 'all',
+  setSelectedCat: () => ''
 });
 
 const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
-    const [selected, setSelected] = useState<SelectedProps>({locations: [], technologies: [], type: []})
-    const [deleteFns, setDeleteFns] = useState<DeleteFns>({locations: {}, technologies: {}, type: {}})
+  const [selected, setSelected] = useState<SelectedProps>({locations: [], technologies: [], type: []})
+  const [deleteFns, setDeleteFns] = useState<DeleteFns>({locations: {}, technologies: {}, type: {}})
+  const [selectedCat, setSelectedCat] = useState<string>('all')
 
   return (
-    <FiltersContext.Provider value={{selected, setSelected, deleteFns, setDeleteFns}}>
+    <FiltersContext.Provider value={{selected, setSelected, deleteFns, setDeleteFns, selectedCat, setSelectedCat}}>
         {children}
     </FiltersContext.Provider>
   )

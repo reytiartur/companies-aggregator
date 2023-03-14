@@ -62,6 +62,8 @@ export interface FiltersContextType {
     setSelected: (selected: SelectedProps) => void;
     deleteFns: DeleteFns;
     setDeleteFns: (DeleteFns: DeleteFns) => void;
+    selectedCat: string;
+    setSelectedCat: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface FiltersProviderProps {

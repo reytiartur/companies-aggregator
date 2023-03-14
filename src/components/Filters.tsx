@@ -1,13 +1,11 @@
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BusinessIcon from '@mui/icons-material/Business';
-import { useContext, useState } from 'react';
-import { CompanyProps, DeleteFns } from '../utils/types';
+import { useContext } from 'react';
+import { DeleteFns } from '../utils/types';
 import CustomAutocomplete from './CustomAutocomplete';
 import CustomChip from "./CustomChip";
 import { FiltersContext } from "../contexts/FiltersContext";
-import { CompaniesContext } from '../contexts/CompanyContext';
-
 
 
 const locations = ['Warszawa', 'Kraków', 'Wrocław', 'Gdańsk', 'Poznań', 'Gdynia', 'Łódź', 'Rzeszów', 'Katowice', 'Szczecin', 'Gliwice', 'Bielsko-Biała', 'Łomża', 'Białystok' ]
@@ -17,30 +15,17 @@ const types = ['Corporation', 'Software House', 'Startup', 'E-Commerce', 'Other'
   
 
 const Filters = () => {
-  const { selected, deleteFns } = useContext(FiltersContext)
-  const { companiesList, setCompanies, savedCompanies } = useContext(CompaniesContext)
-  const [selectedCat, setSelectedCat] = useState<string>('all')
+  const { selected, deleteFns, selectedCat, setSelectedCat } = useContext(FiltersContext)
   const deleteRefFns: DeleteFns = {locations: {}, technologies: {}, type: {}}
 
   const handleClick = (key: string) => {
-    let categorizedArray: CompanyProps[] = []
     if(key === 'sent') {
       setSelectedCat('sent')
-      categorizedArray = companiesList.filter(company => {
-        const matching = savedCompanies.find(savedCompany => company.name === savedCompany.name)
-        return matching && matching.sent
-      })
     } else if(key === 'later') {
       setSelectedCat('later')
-      categorizedArray = companiesList.filter(company => {
-        const matching = savedCompanies.find(savedCompany => company.name === savedCompany.name)
-        return matching && matching.later
-      })
     } else if(key === 'all') {
       setSelectedCat('all')
-      categorizedArray = [...companiesList]
     }
-    setCompanies(categorizedArray)
   }
 
   return (
