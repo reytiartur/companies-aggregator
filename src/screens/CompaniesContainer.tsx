@@ -4,6 +4,7 @@ import { CompanyComponent } from '../components/CompanyComponent';
 import { CompanyProps } from '../utils/types';
 import { CircularProgress } from '@mui/material';
 import { FiltersContext } from "../contexts/FiltersContext";
+import { CompaniesContext } from "../contexts/CompanyContext";
 
 const requestCompanies = async () => {
   try {
@@ -15,8 +16,8 @@ const requestCompanies = async () => {
 };
 
 const CompaniesContainer = () => {
-    const [companiesList, setCompaniesList] = useState<CompanyProps[]>([])
-    const [companies, setCompanies] = useState<CompanyProps[]>([])
+    const { companiesList, setCompaniesList } = useContext(CompaniesContext)
+    const { companies, setCompanies } = useContext(CompaniesContext)
     const [loading, setLoading] = useState(false)
     const { selected } = useContext(FiltersContext)
 

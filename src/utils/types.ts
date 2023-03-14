@@ -19,8 +19,12 @@ export interface Company {
 }
 
 export interface CompaniesContextType {
-    companies: Company[];
-    setCompanies: (companies: Company[]) => void;
+    companiesList: CompanyProps[];
+    setCompaniesList: React.Dispatch<React.SetStateAction<CompanyProps[]>>
+    companies: CompanyProps[],
+    setCompanies: React.Dispatch<React.SetStateAction<CompanyProps[]>>
+    savedCompanies: Company[];
+    setSavedCompanies: React.Dispatch<React.SetStateAction<Company[]>>
 }
 
 export interface CompaniesProviderProps {

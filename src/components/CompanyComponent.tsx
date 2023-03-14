@@ -10,24 +10,24 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 export const CompanyComponent = ({ name, description, linkedin, locations, logoUrl, technologies, type, website }: CompanyProps) => {
     const color = type.toLowerCase() === 'corporation' ? 'fuchsia-400' : type.toLowerCase() === 'software house' ? 'cyan-500' : type.toLowerCase() === 'startup' ? 'orange-400' : 'rose-400'
-    const {companies, setCompanies} = useContext(CompaniesContext)
-    let company = companies.find(obj => obj.name === name)
+    const {savedCompanies, setSavedCompanies} = useContext(CompaniesContext)
+    let company = savedCompanies.find(obj => obj.name === name)
 
     const handleSent = () => {
         if(company) {
-            const index = companies.indexOf(company)
-            setCompanies([...companies.slice(0, index), {...company, sent: true, sentDate: new Date()}, ...companies.slice(index + 1)])
+            const index = savedCompanies.indexOf(company)
+            setSavedCompanies([...savedCompanies.slice(0, index), {...company, sent: true, sentDate: new Date()}, ...savedCompanies.slice(index + 1)])
         } else {
-            setCompanies([...companies, {name, sent: true, later:false, sentDate: new Date()}])
+            setSavedCompanies([...savedCompanies, {name, sent: true, later:false, sentDate: new Date()}])
         }
     }
 
     const handleToggle = () => {
         if(company) {
-            const index = companies.indexOf(company)
-            setCompanies([...companies.slice(0, index), {...company, later: !company.later}, ...companies.slice(index + 1)])
+            const index = savedCompanies.indexOf(company)
+            setSavedCompanies([...savedCompanies.slice(0, index), {...company, later: !company.later}, ...savedCompanies.slice(index + 1)])
         } else {
-            setCompanies([...companies, {name, sent: false, later:true}])
+            setSavedCompanies([...savedCompanies, {name, sent: false, later:true}])
         }
     }
 
