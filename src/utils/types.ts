@@ -69,3 +69,11 @@ export interface FiltersContextType {
 export interface FiltersProviderProps {
     children: React.ReactNode
 }
+
+export interface FiltersArrayProps {
+    data: {
+        locations: string[]
+        technologies: string[]
+        types: string[]
+    }
+}
