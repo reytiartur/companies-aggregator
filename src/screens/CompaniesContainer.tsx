@@ -82,14 +82,14 @@ const CompaniesContainer = () => {
     }, [selected, selectedCat])
 
   return (
-    <div className="p-4 h-full flex flex-col gap-6 pt-3 pb-40 md:grid md:grid-cols-4 md:gap-4 md:auto-rows-max bg-background overflow-y-auto">
+    <div className="p-4 h-full grid grid-cols-1 gap-6 pt-3 pb-40 sm:grid sm:grid-cols-2 sm:auto-rows-max md:p-6 md:pt-3 md:pb-40 lg:grid-cols-3 lg:gap-4 xl:gap-6 2xl:grid-cols-4 bg-background overflow-y-auto">
         {loading ? (
                 <CircularProgress color='success' size='100' thickness={10} variant='indeterminate' />
             ) : companies?.slice(0, 12).map(company => (
                 <CompanyComponent key={company.name} {...company} />
             ))
         }
-  </div>
+    </div>
   )
 }
 

@@ -32,7 +32,7 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
     }
 
     return (
-        <Card sx={{ display: 'flex', flexDirection: 'column', paddingY: '16px', borderRadius: '8px', border: company?.sent ? '2px solid #81b5a2' : '2px solid white', opacity: company?.sent ? '0.85' : '1' }} variant="outlined">
+        <Card sx={{ display: 'flex', flexDirection: 'column', height: 'max-content', paddingY: '16px', borderRadius: '8px', border: company?.sent ? '2px solid #81b5a2' : '2px solid white', opacity: company?.sent ? '0.85' : '1' }} variant="outlined">
             <div className="flex gap-5 px-4">
                 <div className="rounded-xl p-1 border border-zinc-300 self-start">
                     <div className="rounded-xl w-24 h-24" style={{backgroundImage: `url(${logoUrl})`, backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} />
@@ -63,7 +63,7 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
             <p className='font-semibold mt-2 text-sm px-4'>Tech Stack:</p>
             <nav className='relative flex flex-col'>
                 <div className='w-6 z-10 h-full absolute top-0 left-0 bg-gradient-to-r from-white' />
-                <div className='flex w-full overflow-x-scroll overflow-y-hidden items-center space-x-4 py-1 px-4 whitespace-nowrap scrollbar-hide'>
+                <div className='flex w-full overflow-x-scroll overflow-y-hidden items-center space-x-4 py-1 px-4 whitespace-nowrap max-sm:scrollbar-hide '>
                     {technologies.map((technology, index) => (
                         <p key={technology + index} className='uppercase text-sm text-secondary font-medium'>{technology}</p>
                     ))}
