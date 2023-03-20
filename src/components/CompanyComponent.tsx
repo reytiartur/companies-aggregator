@@ -1,17 +1,19 @@
 import Card from '@mui/material/Card';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import LanguageIcon from '@mui/icons-material/Language';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CompaniesContext } from '../contexts/CompanyContext';
 import { CompanyProps } from '../utils/types';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 
 export const CompanyComponent = ({ name, description, linkedin, locations, logoUrl, technologies, type, website }: CompanyProps) => {
     const color = type.toLowerCase() === 'corporation' ? 'fuchsia-400' : type.toLowerCase() === 'software house' ? 'cyan-500' : type.toLowerCase() === 'startup' ? 'orange-400' : 'rose-400'
     const {savedCompanies, setSavedCompanies} = useContext(CompaniesContext)
     let company = savedCompanies.find(obj => obj.name === name)
+    const [open, setOpen] = useState(false)
 
     const handleSent = () => {
         if(company) {
@@ -72,18 +74,35 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
             </nav>
             <div className="pt-1 px-4 mb-3 flex flex-col min-h-[96px]">
                 <p className='text-sm font-light text-zinc-500 line-clamp-3'>{description}</p>
-                <button className='border-0 h-8 mt-auto text-sm text-primary hover:text-hover font-medium underline self-start'>Read more</button>
+                <button onClick={() => setOpen(true)} className='border-0 h-8 mt-auto text-sm text-primary hover:text-hover font-medium underline self-start'>Read more</button>
             </div>
             <div className="border-t border-gray-400 flex flex-col px-4 pt-2 grow justify-end h-[73px]">
                 {company?.sent ? (
                     <>
                         <p className='self-start text-zinc-500 mb-1 text-xs'>Sent: {new Date(company?.sentDate ?? '').toLocaleDateString()}</p>
-                        <button onClick={handleSent} className='cursor-pointer border-2 px-2 h-11 font-semibold text-sm items-center gap-1 rounded-xl flex justify-center text-secondary bg-white border-secondary hover:border-hover hover:text-hover hover:bg-zinc-50 opacity-100 transition duration-300'>Sent again</button>
+                        <button onClick={handleSent} className='cursor-pointer border-2 px-2 h-11 font-semibold text-sm items-center rounded-xl flex justify-center text-secondary bg-white border-secondary hover:border-hover hover:text-hover hover:bg-zinc-50 opacity-100 transition duration-300'>Sent again</button>
                     </>
                 ) : (
-                    <button onClick={handleSent} className='cursor-pointer border px-2 mt-15 h-11 font-semibold text-sm items-center gap-1 rounded-xl flex justify-center text-white bg-primary border-primary hover:bg-hover transition duration-300'>Mark as sent</button>
+                    <button onClick={handleSent} className='cursor-pointer border px-2 mt-15 h-11 font-semibold text-sm items-center rounded-xl flex justify-center text-white bg-primary border-primary hover:bg-hover transition duration-300'>Mark as sent</button>
                 )}
             </div>
+
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+            >
+                <DialogTitle>
+                    {name}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        {description}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions className=''>
+                    <button onClick={() => setOpen(false)} className='cursor-pointer border px-4 mt-15 h-11 font-semibold text-sm items-center rounded-xl flex justify-center text-white bg-primary border-primary hover:bg-hover transition duration-300 uppercase'>Close</button>  
+                </DialogActions>
+            </Dialog>
         </Card>
     )
 }
