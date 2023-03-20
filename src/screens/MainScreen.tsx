@@ -4,7 +4,7 @@ import CompaniesContainer from './CompaniesContainer'
 
 const MainScreen = () => {
   return (
-    <div className='w-full h-screen overflow-hidden'>
+    <div className='w-full overflow-hidden'>
       <Navbar />
       <Filters />
       <CompaniesContainer />

@@ -1,10 +1,13 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from 'react';
-import { CompanyComponent } from '../components/CompanyComponent';
+import { useContext, useEffect, useState, lazy, Suspense } from 'react';
 import { CompanyProps } from '../utils/types';
-import { CircularProgress } from '@mui/material';
 import { FiltersContext } from "../contexts/FiltersContext";
 import { CompaniesContext } from "../contexts/CompanyContext";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import LoadingCompanyComponent from "../components/LoadingCompanyComponent";
+import Loader from "../components/Loader";
+
+const CompanyComponent = lazy(() => import('../components/CompanyComponent')) 
 
 const requestCompanies = async () => {
   try {
@@ -17,23 +20,27 @@ const requestCompanies = async () => {
 
 const CompaniesContainer = () => {
     const { companiesList, setCompaniesList, companies, setCompanies, savedCompanies } = useContext(CompaniesContext)
-    const [loading, setLoading] = useState(false)
     const { selected, selectedCat } = useContext(FiltersContext)
+    const [ hasMore, setHasMore ] = useState(true) 
 
     const fetchData = async () => {
         const data = await requestCompanies();
         setCompaniesList(data)
-        setCompanies(data)
+        setCompanies([...data.slice(0, 12)])
     };
 
-    const loadWhileFetch = () => {
-        setLoading(state => !state)
-        fetchData();
-        setLoading(state => !state)
+    const loadFunc = () => {
+        if(selectedCat === 'all') {
+            const nextCompanies = companiesList.slice(companies.length, companies.length + 12)
+            setCompanies([...companies, ...nextCompanies])
+            setHasMore(companies.length < companiesList.length)
+        } else {
+            setHasMore(false)
+        }
     }
 
     useEffect(() => {
-        loadWhileFetch()
+        fetchData()
     }, [])
 
     useEffect(() => {
@@ -76,20 +83,25 @@ const CompaniesContainer = () => {
                 })
                 setCompanies(categorizedArray)
             } else {
-                setCompanies(companiesList)
+                setCompanies([...companiesList?.slice(0, 12)])
             }
         }
     }, [selected, selectedCat])
 
   return (
-    <div className="p-4 h-full grid grid-cols-1 gap-6 pt-3 pb-40 sm:grid sm:grid-cols-2 sm:auto-rows-max md:p-6 md:pt-3 md:pb-40 lg:grid-cols-3 lg:gap-4 xl:gap-6 2xl:grid-cols-4 bg-background overflow-y-auto">
-        {loading ? (
-                <CircularProgress color='success' size='100' thickness={10} variant='indeterminate' />
-            ) : companies?.slice(0, 12).map(company => (
+    <InfiniteScroll
+        dataLength={companies.length}
+        next={loadFunc}
+        hasMore={hasMore}
+        loader={<Loader />}
+        className='p-4 min-h-screen grid grid-cols-1 gap-6 pt-3 pb-6 sm:grid sm:grid-cols-2 sm:auto-rows-max md:p-6 md:pt-3 lg:grid-cols-3 lg:gap-4 xl:gap-6 2xl:grid-cols-4 bg-background overflow-y-scroll'
+    >
+        {companies?.map(company => (
+            <Suspense key={`suspense ${company.name}`} fallback={<LoadingCompanyComponent />}>
                 <CompanyComponent key={company.name} {...company} />
-            ))
-        }
-    </div>
+            </Suspense>
+        ))}
+    </InfiniteScroll>
   )
 }
 
