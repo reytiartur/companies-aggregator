@@ -15,7 +15,7 @@ const Loader = () => {
         <ThemeProvider theme={theme}>
             <CircularProgress color='primary' size={120} thickness={7} />
         </ThemeProvider>
-        <p className="text-xl font-medium text-center mt-8 mb-40">
+        <p className="text-xl font-medium text-secondary text-center mt-8 mb-40">
             Loading companies list...
         </p>
     </div>

@@ -20,7 +20,7 @@ const requestCompanies = async () => {
 
 const CompaniesContainer = () => {
     const { companiesList, setCompaniesList, companies, setCompanies, savedCompanies } = useContext(CompaniesContext)
-    const { selected, selectedCat } = useContext(FiltersContext)
+    const { selected, selectedCat, search } = useContext(FiltersContext)
     const [ hasMore, setHasMore ] = useState(true) 
 
     const fetchData = async () => {
@@ -93,14 +93,21 @@ const CompaniesContainer = () => {
         dataLength={companies.length}
         next={loadFunc}
         hasMore={hasMore}
-        loader={<Loader />}
+        loader={!search ? <Loader /> : <div className="col-span-full text-center pt-40 text-2xl text-secondary font-semibold">There is no company with matching name.</div>}
         className='p-4 min-h-screen grid grid-cols-1 gap-6 pt-3 pb-6 sm:grid sm:grid-cols-2 sm:auto-rows-max md:p-6 md:pt-3 lg:grid-cols-3 lg:gap-4 xl:gap-6 2xl:grid-cols-4 bg-background overflow-y-scroll'
     >
-        {companies?.map(company => (
-            <Suspense key={`suspense ${company.name}`} fallback={<LoadingCompanyComponent />}>
-                <CompanyComponent key={company.name} {...company} />
-            </Suspense>
-        ))}
+        {!search ? 
+            companies?.map(company => (
+                <Suspense key={`suspense ${company.name}`} fallback={<LoadingCompanyComponent />}>
+                    <CompanyComponent key={company.name} {...company} />
+                </Suspense>
+        )) :
+            companiesList?.filter(company => company.name.toLowerCase().includes(search.toLowerCase())).map(company => (
+                <Suspense key={`suspense ${company.name}`} fallback={<LoadingCompanyComponent />}>
+                    <CompanyComponent key={company.name} {...company} />
+                </Suspense>
+            ))
+        }
     </InfiniteScroll>
   )
 }
