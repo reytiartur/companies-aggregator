@@ -35,35 +35,35 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
 
     return (
         <Card sx={{ display: 'flex', flexDirection: 'column', height: 'max-content', paddingY: '16px', borderRadius: '8px', border: company?.sent ? '2px solid #81b5a2' : '2px solid white', opacity: company?.sent ? '0.85' : '1' }} variant="outlined">
-            <div className="flex gap-5 px-4">
+            <div className="flex gap-5 px-4 cursor-default">
                 <div className="rounded-xl p-1 border border-zinc-300 self-start">
                     <div className="rounded-xl w-24 h-24" style={{backgroundImage: `url(${logoUrl})`, backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} />
                 </div>
                 
-                <div className="flex flex-col gap-2 relative cursor-pointer w-full">
+                <div className="flex flex-col gap-2 relative w-full">
                     <p className='text-lg text-secondary font-bold whitespace-nowrap overflow-hidden'>{name.length > 14 ? `${name.slice(0, 13)}...` : name}</p>
-                    <div className="basis-8 shrink-0 absolute top-0 right-0" onClick={handleToggle}>
-                        {company?.later ? <BookmarkIcon className='text-secondary' /> : <BookmarkBorderIcon className='text-secondary' />}
+                    <div className="basis-8 shrink-0 absolute top-0 right-0 cursor-pointer z-10 bg-gradient-to-l from-white" onClick={handleToggle}>
+                        {company?.later ? <BookmarkIcon className='text-secondary bg-white' /> : <BookmarkBorderIcon className='text-secondary bg-white' />}
                     </div>
                     <p className={`px-2 rounded-xl w-max text-${color} border border-${color} font-medium text-xs`}>{type}</p>
                     <div className="flex gap-2">
-                        <a className="hover:text-gray-500 transition duration-300 ease-in-out" target="_blank" href={linkedin}>
+                        <a className="hover:text-gray-500 transition duration-300 ease-in-out cursor-pointer" target="_blank" href={linkedin}>
                             <LinkedInIcon />
                         </a>
-                        <a className="hover:text-gray-500 transition duration-300 ease-in-out" target="_blank" href={website}>
+                        <a className="hover:text-gray-500 transition duration-300 ease-in-out cursor-pointer" target="_blank" href={website}>
                             <LanguageIcon />
                         </a>
                     </div>
                 </div>
             </div>
-            <div className='flex gap-1 mt-3 flex-nowrap overflow-hidden items-start mx-4 max-h-5'>
+            <div className='flex gap-1 mt-3 flex-nowrap overflow-hidden items-start mx-4 max-h-5 cursor-default'>
                 {locations.slice(0, 3).map(city => (
                     <p key={city} className='whitespace-nowrap text-sm'>{city} |</p>  
                 ))}
                 {locations.length > 3 ? (<p className='font-medium text-sm'>+ {locations.length - 3}</p>) : null}
             </div>
-            <p className='font-semibold mt-2 text-sm px-4'>Tech Stack:</p>
-            <nav className='relative flex flex-col'>
+            <p className='font-semibold mt-2 text-sm px-4 cursor-default'>Tech Stack:</p>
+            <nav className='relative flex flex-col cursor-default'>
                 <div className='w-6 z-10 h-full absolute top-0 left-0 bg-gradient-to-r from-white' />
                 <div className='flex w-full overflow-x-scroll overflow-y-hidden items-center space-x-4 py-1 px-4 whitespace-nowrap max-sm:scrollbar-hide '>
                     {technologies.map((technology, index) => (
@@ -73,7 +73,7 @@ export const CompanyComponent = ({ name, description, linkedin, locations, logoU
                 <div className='w-8 z-10 h-full absolute top-0 right-0 bg-gradient-to-l from-white' />
             </nav>
             <div className="pt-1 px-4 mb-3 flex flex-col min-h-[96px]">
-                <p className='text-sm font-light text-zinc-500 line-clamp-3'>{description}</p>
+                <p className='text-sm font-light text-zinc-500 line-clamp-3 cursor-default'>{description}</p>
                 <button onClick={() => setOpen(true)} className='border-0 h-8 mt-auto text-sm text-primary hover:text-hover font-medium underline self-start'>Read more</button>
             </div>
             <div className="border-t border-gray-400 flex flex-col px-4 pt-2 grow justify-end h-[73px]">
