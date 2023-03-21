@@ -8,11 +8,7 @@ function App() {
     <div className="App min-h-screen">
       <Router>
         <Routes>
-            {/* <Route exact path='/' element={<Navigation />}> */}
               <Route index element={<MainScreen />} /> 
-              {/* <Route path='/signup' element={<SignUp />} /> */}
-
-            {/* </Route> */}
         </Routes>
       </Router>
     </div>

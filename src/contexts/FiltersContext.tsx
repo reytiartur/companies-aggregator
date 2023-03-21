@@ -9,16 +9,19 @@ const FiltersContext = createContext<FiltersContextType>({
   deleteFns: {locations: {}, technologies: {}, type: {}},
   setDeleteFns: () => {},
   selectedCat: 'all',
-  setSelectedCat: () => ''
+  setSelectedCat: () => '',
+  search: '', 
+  setSearch: () => ''
 });
 
 const FiltersProvider: FC<FiltersProviderProps> = ({ children }) => {
   const [selected, setSelected] = useState<SelectedProps>({locations: [], technologies: [], type: []})
   const [deleteFns, setDeleteFns] = useState<DeleteFns>({locations: {}, technologies: {}, type: {}})
   const [selectedCat, setSelectedCat] = useState<string>('all')
+  const [search, setSearch] = useState<string>('')
 
   return (
-    <FiltersContext.Provider value={{selected, setSelected, deleteFns, setDeleteFns, selectedCat, setSelectedCat}}>
+    <FiltersContext.Provider value={{selected, setSelected, deleteFns, setDeleteFns, selectedCat, setSelectedCat, search, setSearch}}>
         {children}
     </FiltersContext.Provider>
   )
