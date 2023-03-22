@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState, lazy, Suspense } from 'react';
+import { useContext, useEffect, useState, lazy, Suspense, useRef } from 'react';
 import { CompanyProps } from '../utils/types';
 import { FiltersContext } from "../contexts/FiltersContext";
 import { CompaniesContext } from "../contexts/CompanyContext";
@@ -21,19 +21,22 @@ const requestCompanies = async () => {
 const CompaniesContainer = () => {
     const { companiesList, setCompaniesList, companies, setCompanies, savedCompanies } = useContext(CompaniesContext)
     const { selected, selectedCat, search } = useContext(FiltersContext)
-    const [ hasMore, setHasMore ] = useState(true) 
+    const [ hasMore, setHasMore ] = useState(false)
+    const countRef = useRef(0)
 
     const fetchData = async () => {
         const data = await requestCompanies();
         setCompaniesList(data)
         setCompanies([...data.slice(0, 12)])
+        countRef.current = data.length
+        setHasMore(true)
     };
 
     const loadFunc = () => {
         if(selectedCat === 'all') {
             const nextCompanies = companiesList.slice(companies.length, companies.length + 12)
             setCompanies([...companies, ...nextCompanies])
-            setHasMore(companies.length < companiesList.length)
+            setHasMore(companies.length < countRef.current)
         } else {
             setHasMore(false)
         }
@@ -69,6 +72,7 @@ const CompaniesContainer = () => {
                 return locIncluded && techIncluded && typeIncluded;
             })
             setCompanies(filteredCompanies)
+            countRef.current = filteredCompanies.length
         } else {
             if(selectedCat === 'sent') {
                 const categorizedArray = companiesList.filter(company => {
@@ -76,14 +80,17 @@ const CompaniesContainer = () => {
                   return matching && matching.sent
                 })
                 setCompanies(categorizedArray)
+                countRef.current = categorizedArray.length
             } else if(selectedCat === 'later') {
                 const categorizedArray = companiesList.filter(company => {
                     const matching = savedCompanies.find(savedCompany => company.name === savedCompany.name)
                     return matching && matching.later
                 })
                 setCompanies(categorizedArray)
+                countRef.current = categorizedArray.length
             } else {
                 setCompanies([...companiesList?.slice(0, 12)])
+                countRef.current = companiesList.length
             }
         }
     }, [selected, selectedCat])
