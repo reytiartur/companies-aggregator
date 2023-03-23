@@ -21,7 +21,7 @@ const requestCompanies = async () => {
 const CompaniesContainer = () => {
     const { companiesList, setCompaniesList, companies, setCompanies, savedCompanies } = useContext(CompaniesContext)
     const { selected, selectedCat, search } = useContext(FiltersContext)
-    const [ hasMore, setHasMore ] = useState(false)
+    const [ hasMore, setHasMore ] = useState(true)
     const countRef = useRef(0)
 
     const fetchData = async () => {
@@ -29,12 +29,13 @@ const CompaniesContainer = () => {
         setCompaniesList(data)
         setCompanies([...data.slice(0, 12)])
         countRef.current = data.length
-        setHasMore(true)
     };
 
     const loadFunc = () => {
+        if(!companiesList.length) return
+        
         if(selectedCat === 'all') {
-            const nextCompanies = companiesList.slice(companies.length, companies.length + 12)
+            const nextCompanies = companiesList?.slice(companies.length, companies.length + 12)
             setCompanies([...companies, ...nextCompanies])
             setHasMore(companies.length < countRef.current)
         } else {
@@ -91,6 +92,7 @@ const CompaniesContainer = () => {
             } else {
                 setCompanies([...companiesList?.slice(0, 12)])
                 countRef.current = companiesList.length
+                setHasMore(true)
             }
         }
     }, [selected, selectedCat])
