@@ -1,13 +1,14 @@
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BusinessIcon from '@mui/icons-material/Business';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DeleteFns } from '../utils/types';
 import CustomAutocomplete from './CustomAutocomplete';
 import CustomChip from "./CustomChip";
 import { FiltersContext } from "../contexts/FiltersContext";
 import useScreenSize from '../hooks/useScreenSize';
 import FullScreenDialog from './FullScreenDialog';
+import useScrollToTop from '../hooks/useScrollToTop';
 
 
 const locations = ['Warszawa', 'Kraków', 'Wrocław', 'Gdańsk', 'Poznań', 'Gdynia', 'Łódź', 'Rzeszów', 'Katowice', 'Szczecin', 'Gliwice', 'Bielsko-Biała', 'Łomża', 'Białystok' ]
@@ -20,6 +21,7 @@ const Filters = () => {
   const { selected, deleteFns, selectedCat, setSelectedCat } = useContext(FiltersContext)
   const deleteRefFns: DeleteFns = {locations: {}, technologies: {}, type: {}}
   let { isMobile } = useScreenSize()
+  const scrollToTop = useScrollToTop()
 
   const handleClick = (key: string) => {
     if(key === 'sent') {
@@ -29,11 +31,12 @@ const Filters = () => {
     } else if(key === 'all') {
       setSelectedCat('all')
     }
+    scrollToTop('smooth')
   }
 
   return (
     
-      <div className="flex items-center max-lg:justify-between px-6 h-16 bg-white border-b border-inactive lg:px-8 lg:gap-4"> 
+      <div className="fixed top-20 left-0 right-0 z-20 flex items-center max-lg:justify-between px-6 h-16 bg-white border-b border-inactive lg:px-8 lg:gap-4"> 
         {!isMobile ? (
           <>
             <div className="basis-[10%] grow-0 shrink-1">
